@@ -81,7 +81,6 @@ def train(train_date: date, val_date: date, out_path: str):
     df_train = read_dataframe(train_url)
     df_val = read_dataframe(val_url)
 
-    print(f'train_data length: {len(df_train)}, val_data length: {len(df_val)}')
     
 
     categorical = ['PULocationID', 'DOLocationID']
