@@ -1,21 +1,16 @@
 import pickle
-
 from flask import Flask, jsonify, request
+import os
+from loguru import logger
 
-model_path = './models/2022-01.pkl'
+VERSION = os.getenv('VERSION', 'n/a')
+logger.info(f'running version {VERSION}')
+
+model_path = os.getenv('MODEL_PATH', 'model.bin')
 with open(model_path, 'rb') as f_in:
     model = pickle.load(f_in)
+logger.info(f'Model loaded from {model_path}')
 
-#ctrl/ to comment all lines below:
-
-# trip = {
-#     'PULocationID': '43',
-#     'DOLocationID': '238',
-#     'trip_distance': 1.16,
-# }
-
-# prediction = model.predict([trip])
-# print(prediction[0])
 
 # 'feature engineering' 
 def prepare_features(ride):
@@ -42,7 +37,8 @@ def predict_endpoint():
     features = prepare_features(ride)
     prediction = predict(features)
     result = {'prediction':
-              {'duration': prediction,}}
+              {'duration': prediction,},
+              'version': VERSION,}
     return jsonify(result)
 
 if __name__ == '__main__':
