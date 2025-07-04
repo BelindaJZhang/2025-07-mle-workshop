@@ -1,6 +1,6 @@
 import requests
 
-url ='http://localhost:9696/predict'
+url ='https://duration-pred-serve.fly.dev/predict'
 
 trip = {    'PULocationID': '100',
     'DOLocationID': '102',

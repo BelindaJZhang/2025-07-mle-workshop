@@ -62,3 +62,41 @@ now we can run our training via `make train`
 - create a `__init__.py` file inside of `tests`
 - create a file `test_train.py` inside of `tests` (it has to start with `test_`)
 - run tests via `uv run pytest` or `make test`
+
+
+
+## day 2
+
+### create project and add dependencies
+- create a day_2 folder and we will work from within it: `mkdir day_2 && cd day_2`
+- create a new project `uv init --lib --python 3.10 duration_pred_serve`
+- change dir into it via `cd duration_pred_serve`
+- add dependencies from day 1 to project via `uv add scikit-learn==1.2.2 numpy==1.26.4`
+- add flask (webserver) and pytest(testing): `uv add flask pytest`
+- add requests(making web requests for testing) `uv add --dev requests` 
+- add loguru for logs: `uv add loguru`
+- copy over model from day 1 into a new folder `models`
+
+### ping example
+- create it via `touch src/duration_pred_serve/ping.py`
+- run it via `uv run python src/duration_pred_serve/ping.py`
+
+### implement serve
+- run it via `uv run python src/duration_pred_serve/serve.py`
+- test it via insomnia or via `uv run python integration-tests/predict-test.py`
+- created the make commands: 
+    - `make run` for running the server
+    - `make predict-test` for testing it (needs to be run in a separate terminal)
+    
+### environment variables
+
+- create one eg with `export HELLO=world`, this creates a variable named HELLO with the value "world"
+- print it out via `echo $HELLO`
+- in python you can access it via os.getenv()
+- lets define `export MODEL_PATH="./models/2022-01.pkl"`
+- add the export command to the makefile
+
+### use docker
+- build the docker image via: `docker build -t duration-prediction .`
+- run it via `docker run -it duration-prediction:latest`
+- we created a make command for doing both: `make docker_run`
